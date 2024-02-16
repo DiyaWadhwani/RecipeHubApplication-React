@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../styling/LandingPage.css";
 import Header from "../fragments/Header";
 import NavBar from "../fragments/NavBar";
+import UserModuleDisplay from "../displayContent/UserModuleDisplay";
 
 export default class LandingPage extends Component {
   render() {
@@ -10,12 +11,35 @@ export default class LandingPage extends Component {
       <>
         <Header />
         <NavBar />
-        <div className="landingContent">
-          <div className="d-flex flex-col mb-3">
-            <div className="p-2">Flex item 1</div>
-            <div className="p-2">Flex item 2</div>
-            <div className="p-2">Flex item 3</div>
+
+        <div className="body">
+          {/* separation between Navbar and page content */}
+          <div className="sep-line"></div>
+
+          <div className="d-flex flex-col mb-2">
+            <UserModuleDisplay />
+
+            <div className="flex-box-recipes">
+              <div className="box1">
+                <h2>Pinned Recipes</h2>
+              </div>
+
+              {/* <div className="recipe-grid"> */}
+              {/* <div className="grid-container"> */}
+              {/* <div className="box top-left">1</div>
+                  <div className="box top-right">2</div>
+                  <div className="box bottom-left">3</div>
+                  <div className="box bottom-right">4</div> */}
+
+              <div className="grid-container">
+                <div className="grid-item">Item 1</div>
+                <div className="grid-item">Item 2</div>
+                <div className="grid-item">Item 3</div>
+                <div className="grid-item">Item 4</div>
+              </div>
+            </div>
           </div>
+          {/* </div> */}
         </div>
       </>
     );
