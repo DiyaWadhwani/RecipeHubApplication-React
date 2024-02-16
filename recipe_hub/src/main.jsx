@@ -5,8 +5,18 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RecipeDetails from "./pages/RecipeDetails.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
+import RecipeList from "./pages/RecipeList.jsx";
+import UnderConstructionPage from "./pages/UnderConstructionPage.jsx";
 
 const router = createBrowserRouter([
+  {
+    path: "/underConstruction",
+    element: <UnderConstructionPage />,
+  },
+  {
+    path: "/recipeList",
+    element: <RecipeList />,
+  },
   {
     path: "/recipe",
     element: <RecipeDetails />,

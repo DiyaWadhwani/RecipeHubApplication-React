@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "../styling/NavBar.css";
 
 export default class NavBar extends Component {
@@ -8,10 +9,18 @@ export default class NavBar extends Component {
         <nav className="navbar">
           <div className="d-flex justify-content-between">
             <ul className="list-unstyled d-flex">
-              <li className="me-3">Overview</li>
-              <li className="me-3">Recipes</li>
-              <li className="me-3">Collaborations</li>
-              <li className="me-3">Favorites</li>
+              <li className="me-3">
+                <Link to="/underConstruction">Overview</Link>
+              </li>
+              <li className="me-3">
+                <Link to="/recipeList">Recipes</Link>
+              </li>
+              <li className="me-3">
+                <Link to="/underConstruction">Collaborations</Link>
+              </li>
+              <li className="me-3">
+                <Link to="/underConstruction">Favorites</Link>
+              </li>
             </ul>
           </div>
         </nav>

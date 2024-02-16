@@ -19,3 +19,12 @@
   padding-top: 8px;
   padding-bottom: 8px;
 }
+
+.list-unstyled a {
+  color: inherit; /* or specify the desired color */
+  text-decoration: none; /* removes underline */
+}
+
+.list-unstyled a:hover {
+  color: blue /* add underline on hover if needed */
+}
