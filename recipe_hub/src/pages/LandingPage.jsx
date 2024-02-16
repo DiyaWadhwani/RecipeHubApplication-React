@@ -3,6 +3,9 @@ import "../styling/LandingPage.css";
 import Header from "../fragments/Header";
 import NavBar from "../fragments/NavBar";
 import UserModuleDisplay from "../displayContent/UserModuleDisplay";
+import LandingRecipesDisplay from "../displayContent/LandingRecipesDisplay";
+import ContributionDisplay from "../displayContent/ContributionDisplay";
+import Footer from "../fragments/Footer";
 
 export default class LandingPage extends Component {
   render() {
@@ -18,29 +21,11 @@ export default class LandingPage extends Component {
 
           <div className="d-flex flex-col mb-2">
             <UserModuleDisplay />
-
-            <div className="flex-box-recipes">
-              <div className="box1">
-                <h2>Pinned Recipes</h2>
-              </div>
-
-              {/* <div className="recipe-grid"> */}
-              {/* <div className="grid-container"> */}
-              {/* <div className="box top-left">1</div>
-                  <div className="box top-right">2</div>
-                  <div className="box bottom-left">3</div>
-                  <div className="box bottom-right">4</div> */}
-
-              <div className="grid-container">
-                <div className="grid-item">Item 1</div>
-                <div className="grid-item">Item 2</div>
-                <div className="grid-item">Item 3</div>
-                <div className="grid-item">Item 4</div>
-              </div>
-            </div>
+            <LandingRecipesDisplay />
           </div>
-          {/* </div> */}
+          <ContributionDisplay />
         </div>
+        <Footer />
       </>
     );
   }
