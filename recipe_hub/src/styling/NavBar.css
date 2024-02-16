@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #a4daeb;
+}
+
+/* Add this to your styles */
+.list-unstyled {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional: add some margin to the list items for spacing */
+.list-unstyled li {
+  margin-right: 0px;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Add the rest of your styles for search-form, search-input, and search-button */

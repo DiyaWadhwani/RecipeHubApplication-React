@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import './App.css'
+import NavBar from "./fragments/NavBar";
+import Header from "./fragments/Header";
 
 export default class App extends Component {
 
@@ -8,7 +9,8 @@ export default class App extends Component {
   return (
     <>
       <div>
-        <h1>Hello world</h1>
+        <Header />
+        <NavBar />
       </div>
     </>
   );

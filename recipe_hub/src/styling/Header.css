@@ -1,0 +1,18 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #a4daeb;
+}
+
+.logo-and-text {
+    display: flex;
+    align-items: center;
+  }
+  
+  .app-name {
+    font-weight: bold;
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    margin-left: 10px; /* Adjust the margin as needed */
+  }
