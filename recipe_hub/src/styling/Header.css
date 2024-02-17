@@ -16,3 +16,10 @@
     font-size: 1.5rem; /* Adjust the font size as needed */
     margin-left: 10px; /* Adjust the margin as needed */
   }
+
+.home-icon {
+  font-size: 30px;
+  left: 1735px;
+  color: black; /* Set the color to your desired value */
+  font-weight: bold;
+}

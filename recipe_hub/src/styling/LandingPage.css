@@ -47,7 +47,7 @@
           
  }
 
-  .grid-container {
+  .popular-recipes-grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin: 50px;
@@ -56,7 +56,7 @@
     row-gap: 100px;
   }
   
-  .grid-item {
+  .popular-recipes-grid-item {
     /* Additional styling for grid items, if needed */
     background-color: #f0f0f0;
     padding: 100px;
@@ -65,7 +65,7 @@
     text-align: center;
   }
   
-  .grid-item:hover {
+  .popular-recipes-grid-item:hover {
     background-color: #e0e0e0; /* Change background color on hover */
   }
 
