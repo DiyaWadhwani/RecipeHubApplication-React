@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import { fetchRecipeDetails } from "../models/RecipeDetails";
+import EmptyHeader from "../fragments/EmptyHeader";
 // import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 
 export default class RecipeDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeDetails: null,
-      recipeName: null, // Set a default or fetch it from props
+      recipeDetails: {
+        recipeName: null,
+        recipeAuthor: null,
+        recipeInstructions: null,
+        recipeIngredients: {},
+      },
     };
   }
 
@@ -20,24 +25,36 @@ export default class RecipeDetails extends Component {
   }
 
   fetchRecipeDetailsFromBackend = async (recipeName) => {
-    console.log("Trying to fetch Recipe details");
-    const recipeDetails = await fetchRecipeDetails(recipeName);
-    console.log("RecipeDetails recieved from fetch -- ", recipeDetails);
-    this.setState({ recipeDetails });
+    await fetchRecipeDetails(recipeName, (updatedState) => {
+      this.setState(updatedState);
+    });
   };
 
   render() {
     const { recipeDetails } = this.state;
     console.log("Recipe Details", recipeDetails);
+    console.log("recipename -- ", recipeDetails.recipeName);
 
     return (
       <>
         <div>
-          {recipeDetails ? (
+          <EmptyHeader />
+
+          {recipeDetails && recipeDetails.recipeName ? (
             <>
-              {/* <h2>{recipeDetails.name}</h2>
-              <p>{recipeDetails.description}</p> */}
-              recipes fetched from firestore
+              <h2>{recipeDetails.recipeName}</h2>
+              <p>{recipeDetails.instructions}</p>
+              <p>Author: {recipeDetails.author}</p>
+              <h3>Ingredients:</h3>
+              <ul>
+                {Object.entries(recipeDetails.recipeIngredients).map(
+                  ([ingredient, qty]) => (
+                    <li key={ingredient}>
+                      {ingredient}: {qty}
+                    </li>
+                  )
+                )}
+              </ul>
             </>
           ) : (
             <p>Loading recipe details...</p>

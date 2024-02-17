@@ -20,23 +20,47 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-export const fetchRecipeDetails = async (recipeName) => {
+export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
   try {
-    console.log("Recipe name fetched from url -- ", recipeName);
-    const recipesCollectionRef = collection(firestore, "recipes");
-    const recipesCollectionSnap = await getDocs(recipesCollectionRef);
-    console.log("Recipes Collection Snapshot:", recipesCollectionSnap.docs);
-
     const recipeDocRef = doc(firestore, "recipes", recipeName);
     const recipeDocSnap = await getDoc(recipeDocRef);
     console.log("RecipeName document snapshot", recipeDocSnap);
 
     if (recipeDocSnap.exists()) {
       const recipeDetails = recipeDocSnap.data();
-      console.log("Recipe Details fetched:", recipeDetails);
-      return recipeDetails;
+      console.log("recipe details -- ", recipeDetails);
+
+      //Fetch ingredients
+      const ingredientsRef = collection(
+        firestore,
+        "recipes",
+        recipeName,
+        "ingredients"
+      );
+      const ingredientsSnap = await getDocs(ingredientsRef);
+
+      //map ingredients data
+      const ingredientDict = {};
+      ingredientsSnap.docs.forEach((doc) => {
+        const data = doc.data();
+        const ingredientName = doc.id;
+        const quantity = data.qty;
+        ingredientDict[ingredientName] = quantity;
+      });
+
+      // Update state with both recipe details and ingredients
+      setStateCallback({
+        recipeDetails: {
+          ...recipeDetails,
+          recipeIngredients: ingredientDict,
+          recipeName: recipeName,
+        },
+      });
+
+      console.log("Recipe Details fetched:", this.state.recipeDetails);
+      return this.state.recipeDetails;
     } else {
-      console.log("Recipe not found");
+      console.log("Recipe not found -- js file");
       return null;
     }
   } catch (error) {
