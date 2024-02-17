@@ -23,7 +23,6 @@ export default class RecipeList extends Component {
       this.setState({ recipes });
     } catch (error) {
       console.error("Error fetching recipes:", error);
-      // Handle the error (e.g., show an error message to the user)
     }
   };
 
@@ -68,7 +67,9 @@ export default class RecipeList extends Component {
               <ul className="list-unstyled">
                 {recipes.map((recipe) => (
                   <li key={recipe.id}>
-                    <Link to={`/recipe/${recipe.id}`}>{recipe.id}</Link>
+                    <Link to={`/recipe?recipe_name=${recipe.id}`}>
+                      {recipe.id}
+                    </Link>
                   </li>
                 ))}
               </ul>

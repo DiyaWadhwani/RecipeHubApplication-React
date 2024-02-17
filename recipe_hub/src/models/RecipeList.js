@@ -26,3 +26,13 @@ export const fetchRecipes = async () => {
     return [];
   }
 };
+
+export const getRecipeById = async (id) => {
+  try {
+    const recipeDoc = await firestore.collection("recipes").doc(id).get();
+    return recipeDoc.data();
+  } catch (error) {
+    console.error("Error fetching recipe by ID:", error);
+    return null;
+  }
+};

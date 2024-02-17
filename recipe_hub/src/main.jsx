@@ -10,6 +10,10 @@ import UnderConstructionPage from "./pages/UnderConstructionPage.jsx";
 
 const router = createBrowserRouter([
   {
+    path: "/recipe/:id",
+    element: <RecipeDetails />,
+  },
+  {
     path: "/underConstruction",
     element: <UnderConstructionPage />,
   },
