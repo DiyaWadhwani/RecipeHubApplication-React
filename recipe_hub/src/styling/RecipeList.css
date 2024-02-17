@@ -41,3 +41,19 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+
+
+.recipe-list {
+  margin-top: 20px; /* Add some margin to separate from the grid */
+}
+
+.recipe-list ul {
+  list-style-type: none; /* Remove default list-style */
+  margin-left: 70px;
+}
+
+.recipe-list li {
+  font-weight: 500;
+  font-size:large;
+  margin-bottom: 20px; /* Add some spacing between list items */
+}

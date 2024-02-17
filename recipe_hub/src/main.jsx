@@ -35,25 +35,25 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCPhEcbkiySYg38JEVK-nUmzNJ08hdzfz0",
-  authDomain: "recipehub-2822d.firebaseapp.com",
-  projectId: "recipehub-2822d",
-  storageBucket: "recipehub-2822d.appspot.com",
-  messagingSenderId: "397137383460",
-  appId: "1:397137383460:web:ec732284465758e4e308b1",
-  measurementId: "G-RB0QG4M7EZ",
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCPhEcbkiySYg38JEVK-nUmzNJ08hdzfz0",
+//   authDomain: "recipehub-2822d.firebaseapp.com",
+//   projectId: "recipehub-2822d",
+//   storageBucket: "recipehub-2822d.appspot.com",
+//   messagingSenderId: "397137383460",
+//   appId: "1:397137383460:web:ec732284465758e4e308b1",
+//   measurementId: "G-RB0QG4M7EZ",
+// };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 
-console.log("Firebase added!", app, analytics);
+// console.log("Firebase added!", app, analytics);
