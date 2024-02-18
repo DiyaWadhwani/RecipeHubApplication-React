@@ -43,7 +43,6 @@ export default class RecipeDetails extends Component {
           {recipeDetails && recipeDetails.recipeName ? (
             <>
               <h2>{recipeDetails.recipeName}</h2>
-              <p>{recipeDetails.instructions}</p>
               <p>Author: {recipeDetails.author}</p>
               <h3>Ingredients:</h3>
               <ul>
@@ -59,6 +58,8 @@ export default class RecipeDetails extends Component {
           ) : (
             <p>Loading recipe details...</p>
           )}
+          <h3>Prep:</h3>
+          <p>{recipeDetails.instructions}</p>
         </div>
       </>
     );
