@@ -32,7 +32,7 @@ export default class RecipeList extends Component {
 
     return (
       <>
-        <EmptyHeader />
+        <EmptyHeader headerTag="RecipeHub" />
         <div className="body">
           {/* separation between Navbar and page content */}
           <div className="sep-line"></div>

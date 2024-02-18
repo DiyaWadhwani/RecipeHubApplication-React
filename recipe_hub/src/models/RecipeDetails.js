@@ -46,22 +46,11 @@ export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
         ingredientDict[ingredientName] = quantity;
       });
 
-      // Fetch instructions (assuming it's stored as an array in Firestore)
-      const instructionsRef = collection(
-        firestore,
-        "recipes",
-        recipeName,
-        "instructions"
-      );
-      const instructionsSnap = await getDocs(instructionsRef);
-      const recipeInstructions = instructionsSnap.docs.map((doc) => doc.data());
-
-      // Update state with both recipe details, ingredients, and instructions
       setStateCallback({
         recipeDetails: {
-          ...recipeDetails,
           recipeIngredients: ingredientDict,
-          recipeInstructions,
+          recipeInstructions: recipeDetails.instructions,
+          recipeAuthor: recipeDetails.author,
           recipeName: recipeName,
         },
       });

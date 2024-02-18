@@ -65,22 +65,24 @@
 }
 
 .ingredients-section {
-  width: fit-content; /* Adjust as needed */
+  width: fit-content;
   margin-left: 20px;
 }
 
 .instructions-section {
-  width: fit-content; /* Adjust as needed */
+  width: fit-content;
   margin-left: 20px;
 }
 
 .author-tag {
+  display: flex;
+  flex-wrap: wrap;
   width: fit-content;
   background-color: purple;
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
-  margin-left: 1700px;
+  margin-left: 1600px;
 }
 
 .author-text {
