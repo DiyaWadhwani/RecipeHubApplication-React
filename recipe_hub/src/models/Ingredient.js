@@ -1,6 +1,6 @@
 export default class Ingredient {
-  constructor({ ingredientName = "", ingredientQty = "" }) {
+  constructor(ingredientName = "", quantity = "") {
     this.ingredientName = ingredientName;
-    this.ingredientQty = ingredientQty;
+    this.quantity = quantity;
   }
 }

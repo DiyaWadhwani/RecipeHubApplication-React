@@ -3,15 +3,15 @@ import "../styling/RecipeList.css";
 import EmptyHeader from "../fragments/EmptyHeader";
 import Footer from "../fragments/Footer";
 import { Link } from "react-router-dom";
-import RecipeManager from "../models/RecipeManager";
+import RecipeDetails from "../models/RecipeDetails";
 
-export default class RecipeList extends Component {
+export default class RecipeListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       recipes: [],
     };
-    this.recipeManager = new RecipeManager();
+    this.recipeDetails = new RecipeDetails();
   }
 
   async componentDidMount() {
@@ -22,7 +22,7 @@ export default class RecipeList extends Component {
 
   fetchRecipes = async () => {
     try {
-      const recipes = await this.recipeManager.fetchAllRecipes();
+      const recipes = await this.recipeDetails.fetchRecipeNames();
       console.log("Recipes from fetchRecipes:", recipes);
       this.setState({ recipes });
     } catch (error) {

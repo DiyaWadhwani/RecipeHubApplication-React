@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import RecipeManager from "../models/RecipeManager";
-import MyFirebaseDB from "../models/FirebaseConfig";
+import MyFirebaseDB from "../models/MyFirebaseDB";
 
 export default class RecipeImageDisplay extends Component {
   constructor(props) {
     super(props);
-
-    this.recipeManager = new RecipeManager();
-    this.state = {};
+    this.state = { imageUrl: null };
   }
 
   componentDidMount() {
@@ -21,14 +18,18 @@ export default class RecipeImageDisplay extends Component {
     }
   }
 
-  downloadImage = async (recipeName) => {
+  async downloadImage() {
+    const { recipeName } = this.props;
+    const myDatabase = new MyFirebaseDB();
     try {
-      return await MyFirebaseDB.downloadImage(recipeName);
+      const imageUrl = await myDatabase.downloadImage(recipeName);
+      this.setState({ imageUrl });
     } catch (error) {
       console.error("Error downloading image:", error);
       throw error;
     }
-  };
+  }
+
   render() {
     const { imageUrl } = this.state;
 
