@@ -1,11 +1,42 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import burgerImage from "../assets/burger.png";
-// import pizzaImage from "../assets/pizza.png";
-// import momoImage from "../assets/momo.png";
-// import dessertImage from "../assets/dessert.png";
+import { storage, ref, getDownloadURL } from "../models/FirebaseConfig";
+import placeholderImage from "../assets/placeholder-image.png";
 
 export default class LandingRecipesDisplay extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recipes: [
+        { name: "Cheeseburger", imageUrl: null },
+        { name: "Margherita Pizza", imageUrl: null },
+        { name: "Chicken Momos", imageUrl: null },
+        { name: "Cannoli", imageUrl: null },
+      ],
+    };
+  }
+
+  componentDidMount() {
+    this.fetchRandomImages();
+  }
+
+  fetchRandomImages = async () => {
+    const updatedRecipes = [];
+
+    for (const recipe of this.state.recipes) {
+      try {
+        const imageRef = ref(storage, `/images/${recipe.name}.png`);
+        const imageUrl = await getDownloadURL(imageRef);
+        updatedRecipes.push({ ...recipe, imageUrl });
+      } catch (error) {
+        console.error(`Error fetching image for ${recipe.name}:`, error);
+        updatedRecipes.push({ ...recipe, imageUrl: this.placeholderImage });
+      }
+    }
+
+    this.setState({ recipes: updatedRecipes });
+  };
+
   render() {
     return (
       <>
@@ -14,52 +45,19 @@ export default class LandingRecipesDisplay extends Component {
             <h2>Popular Recipes</h2>
           </div>
           <div className="popular-recipes-grid-container">
-            <div className="popular-recipes-grid-item">
-              <Link to="/recipe?recipe_name=Cheeseburger">
-                <img
-                  className="food-imgs"
-                  // src={burgerImage}
-                  alt="Image 1"
-                  width="400"
-                  height="250"
-                />
-              </Link>
-            </div>
-            <div className="popular-recipes-grid-item">
-              <Link to="/recipe?recipe_name=Margherita Pizza">
-                <img
-                  className="food-imgs"
-                  // src={pizzaImage}
-                  alt="Image 1"
-                  width="400"
-                  height="250"
-                />
-              </Link>
-            </div>
-
-            <div className="popular-recipes-grid-item">
-              <Link to="/recipe?recipe_name=Chicken Momos">
-                <img
-                  className="food-imgs"
-                  // src={momoImage}
-                  alt="Image 1"
-                  width="400"
-                  height="250"
-                />
-              </Link>
-            </div>
-
-            <div className="popular-recipes-grid-item">
-              <Link to="/recipe?recipe_name=Cannoli">
-                <img
-                  className="food-imgs"
-                  // src={dessertImage}
-                  alt="Image 1"
-                  width="400"
-                  height="250"
-                />
-              </Link>
-            </div>
+            {this.state.recipes.map((recipe, index) => (
+              <div className="popular-recipes-grid-item" key={index}>
+                <Link to={`/recipe?recipe_name=${recipe.name}`}>
+                  <img
+                    className="food-imgs"
+                    src={recipe.imageUrl || placeholderImage}
+                    alt={`Image ${index + 1}`}
+                    width="400"
+                    height="250"
+                  />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </>
