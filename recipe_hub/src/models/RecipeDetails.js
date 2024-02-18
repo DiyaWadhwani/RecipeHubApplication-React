@@ -1,24 +1,13 @@
-import { initializeApp } from "firebase/app";
 import {
+  firestore,
+  collection,
+  getDocs,
   doc,
   getDoc,
-  getDocs,
-  getFirestore,
-  collection,
-} from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCPhEcbkiySYg38JEVK-nUmzNJ08hdzfz0",
-  authDomain: "recipehub-2822d.firebaseapp.com",
-  projectId: "recipehub-2822d",
-  storageBucket: "recipehub-2822d.appspot.com",
-  messagingSenderId: "397137383460",
-  appId: "1:397137383460:web:ec732284465758e4e308b1",
-  measurementId: "G-RB0QG4M7EZ",
-};
-
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
+  // getStorage,
+  // ref,
+  // getDownloadURL,
+} from "../models/FirebaseConfig";
 
 export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
   try {
@@ -66,3 +55,21 @@ export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
     return null;
   }
 };
+
+// export const fetchRecipeImage = async (recipeName) => {
+//   // Fetch image URL from Firebase Storage
+//   try {
+//     console.log("Entering fetchRecipeImage");
+//     const storage = getStorage();
+//     const URL = `images/${recipeName}.png`;
+//     console.log("image path -- ", URL);
+//     const pathReference = ref(storage, URL);
+//     // const imageRef = storageRef.child(`images/${recipeName}.png`);
+//     const imageRef = storageRef.child(URL);
+//     const imageUrl = await imageRef.getDownloadURL();
+//     return imageUrl;
+//   } catch (error) {
+//     console.error("Error fetching recipe image:", error);
+//     return null;
+//   }
+// };

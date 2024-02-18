@@ -3,6 +3,7 @@ import { fetchRecipeDetails } from "../models/RecipeDetails";
 import EmptyHeader from "../fragments/EmptyHeader";
 import PropTypes from "prop-types";
 import RecipeDetailsDisplay from "../displayContent/RecipeDetailsDisplay";
+import RecipeImageDisplay from "../displayContent/RecipeImageDisplay";
 
 export default class RecipeDetails extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class RecipeDetails extends Component {
         recipeInstructions: [],
         recipeIngredients: {},
       },
+      recipeImageURL: null,
     };
   }
 
@@ -22,6 +24,7 @@ export default class RecipeDetails extends Component {
     const recipeName = urlSearchParams.get("recipe_name");
     if (recipeName) {
       this.fetchRecipeDetailsFromBackend(recipeName);
+      // this.fetchRecipeImage(recipeName);
     }
   }
 
@@ -31,15 +34,23 @@ export default class RecipeDetails extends Component {
     });
   };
 
-  render() {
-    const { recipeDetails } = this.state;
+  // fetchRecipeImage = async (recipeName) => {
+  //   // Fetch image URL from the same file
+  //   const imageUrl = await fetchRecipeImage(recipeName);
+  //   console.log("checking if url is fetched before setting state --", imageUrl);
+  //   this.setState({ recipeImageUrl: imageUrl });
+  // };
 
+  render() {
+    const { recipeDetails, recipeImageUrl } = this.state;
+    console.log("imageURL -- ", recipeImageUrl);
     return (
       <>
         <div className="body">
           <EmptyHeader headerTag={recipeDetails.recipeName} />
           {/* separation between Navbar and page content */}
           <div className="sep-line"></div>
+          <RecipeImageDisplay recipeName={recipeDetails.recipeName} />
           <RecipeDetailsDisplay recipeDetails={recipeDetails} />
         </div>
       </>

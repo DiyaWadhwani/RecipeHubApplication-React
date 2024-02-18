@@ -47,6 +47,8 @@ RecipeDetailsDisplay.propTypes = {
     recipeName: PropTypes.string,
     recipeAuthor: PropTypes.string,
     recipeInstructions: PropTypes.arrayOf(PropTypes.string),
-    recipeIngredients: PropTypes.objectOf(PropTypes.number),
+    recipeIngredients: PropTypes.objectOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    ),
   }),
 };
