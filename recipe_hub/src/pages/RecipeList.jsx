@@ -37,15 +37,6 @@ export default class RecipeList extends Component {
           {/* separation between Navbar and page content */}
           <div className="sep-line"></div>
 
-          <div className="recipe-page-grid-container">
-            <div className="recipe-page-grid-item">Item 1</div>
-            <div className="recipe-page-grid-item">Item 2</div>
-            <div className="recipe-page-grid-item">Item 3</div>
-            <div className="recipe-page-grid-item">Item 4</div>
-            <div className="recipe-page-grid-item">Item 5</div>
-            <div className="recipe-page-grid-item">Item 6</div>
-          </div>
-
           <form className="find-recipe search-form d-flex">
             <input
               className="search-bar-input search-input form-control me-2"

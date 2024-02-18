@@ -24,13 +24,11 @@ export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
   try {
     const recipeDocRef = doc(firestore, "recipes", recipeName);
     const recipeDocSnap = await getDoc(recipeDocRef);
-    console.log("RecipeName document snapshot", recipeDocSnap);
 
     if (recipeDocSnap.exists()) {
       const recipeDetails = recipeDocSnap.data();
-      console.log("recipe details -- ", recipeDetails);
 
-      //Fetch ingredients
+      // Fetch ingredients
       const ingredientsRef = collection(
         firestore,
         "recipes",
@@ -39,7 +37,7 @@ export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
       );
       const ingredientsSnap = await getDocs(ingredientsRef);
 
-      //map ingredients data
+      // Map ingredients data
       const ingredientDict = {};
       ingredientsSnap.docs.forEach((doc) => {
         const data = doc.data();
@@ -48,11 +46,22 @@ export const fetchRecipeDetails = async (recipeName, setStateCallback) => {
         ingredientDict[ingredientName] = quantity;
       });
 
-      // Update state with both recipe details and ingredients
+      // Fetch instructions (assuming it's stored as an array in Firestore)
+      const instructionsRef = collection(
+        firestore,
+        "recipes",
+        recipeName,
+        "instructions"
+      );
+      const instructionsSnap = await getDocs(instructionsRef);
+      const recipeInstructions = instructionsSnap.docs.map((doc) => doc.data());
+
+      // Update state with both recipe details, ingredients, and instructions
       setStateCallback({
         recipeDetails: {
           ...recipeDetails,
           recipeIngredients: ingredientDict,
+          recipeInstructions,
           recipeName: recipeName,
         },
       });

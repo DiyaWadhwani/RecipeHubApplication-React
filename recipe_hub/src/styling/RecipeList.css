@@ -27,6 +27,7 @@
   .find-recipe {
     margin-left: 100px;
     margin-right: 40px;
+    margin-top: 30px;
   }
 
   .random-padding {
@@ -56,4 +57,46 @@
   font-weight: 500;
   font-size:large;
   margin-bottom: 20px; /* Add some spacing between list items */
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ingredients-section {
+  width: fit-content; /* Adjust as needed */
+  margin-left: 20px;
+}
+
+.instructions-section {
+  width: fit-content; /* Adjust as needed */
+  margin-left: 20px;
+}
+
+.author-tag {
+  width: fit-content;
+  background-color: purple;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 1700px;
+}
+
+.author-text {
+  color: white;
+  margin: 0; 
+} 
+
+.ingredients-section,
+.instructions-section {
+  border: 3px solid darkblue;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.ingredients-section h3,
+.instructions-section h3 {
+  margin-bottom: 10px;
 }

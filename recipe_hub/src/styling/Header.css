@@ -23,3 +23,16 @@
   color: black; /* Set the color to your desired value */
   font-weight: bold;
 }
+
+footer {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Add background color as needed */
+}
