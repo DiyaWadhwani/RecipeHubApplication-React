@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { storage, ref, getDownloadURL } from "../models/FirebaseConfig";
 import PropTypes from "prop-types";
+import RecipeManager from "../models/RecipeManager";
+import MyFirebaseDB from "../models/FirebaseConfig";
 
 export default class RecipeImageDisplay extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      imageUrl: "",
-    };
+
+    this.recipeManager = new RecipeManager();
+    this.state = {};
   }
 
   componentDidMount() {
@@ -20,18 +21,14 @@ export default class RecipeImageDisplay extends Component {
     }
   }
 
-  downloadImage = async () => {
+  downloadImage = async (recipeName) => {
     try {
-      const { recipeName } = this.props;
-      console.log("trying to download image", recipeName);
-      const imageRef = ref(storage, `/images/${recipeName}.png`);
-      const url = await getDownloadURL(imageRef);
-      this.setState({ imageUrl: url });
+      return await MyFirebaseDB.downloadImage(recipeName);
     } catch (error) {
       console.error("Error downloading image:", error);
+      throw error;
     }
   };
-
   render() {
     const { imageUrl } = this.state;
 

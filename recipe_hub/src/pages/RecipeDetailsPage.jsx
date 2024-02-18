@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { fetchRecipeDetails } from "../models/RecipeDetails";
 import { BiFork } from "react-icons/bi";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -7,19 +6,12 @@ import EmptyHeader from "../fragments/EmptyHeader";
 import Footer from "../fragments/Footer";
 import PropTypes from "prop-types";
 import RecipeDetailsDisplay from "../displayContent/RecipeDetailsDisplay";
+import RecipeDetails from "../models/RecipeDetails";
 
-export default class RecipeDetails extends Component {
+export default class RecipeDetailsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      recipeDetails: {
-        recipeName: null,
-        recipeAuthor: null,
-        recipeInstructions: [],
-        recipeIngredients: {},
-      },
-      recipeImageURL: null,
-    };
+    this.recipeDetails = new RecipeDetails();
   }
 
   componentDidMount() {
@@ -31,7 +23,7 @@ export default class RecipeDetails extends Component {
   }
 
   fetchRecipeDetailsFromBackend = async (recipeName) => {
-    await fetchRecipeDetails(recipeName, (updatedState) => {
+    await this.recipeDetails.fetchRecipeDetails(recipeName, (updatedState) => {
       this.setState(updatedState);
     });
   };

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { storage, ref, getDownloadURL } from "../models/FirebaseConfig";
+import { getDownloadURL, ref } from "firebase/storage";
+import firebaseConfig from "../models/FirebaseConfig";
 import placeholderImage from "../assets/placeholder-image.png";
 
 export default class LandingRecipesDisplay extends Component {
@@ -25,12 +26,15 @@ export default class LandingRecipesDisplay extends Component {
 
     for (const recipe of this.state.recipes) {
       try {
-        const imageRef = ref(storage, `/images/${recipe.name}.png`);
+        const imageRef = ref(
+          firebaseConfig.storage,
+          `/images/${recipe.name}.png`
+        );
         const imageUrl = await getDownloadURL(imageRef);
         updatedRecipes.push({ ...recipe, imageUrl });
       } catch (error) {
         console.error(`Error fetching image for ${recipe.name}:`, error);
-        updatedRecipes.push({ ...recipe, imageUrl: this.placeholderImage });
+        updatedRecipes.push({ ...recipe, imageUrl: placeholderImage });
       }
     }
 
