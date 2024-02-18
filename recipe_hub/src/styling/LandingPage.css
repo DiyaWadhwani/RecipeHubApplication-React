@@ -17,18 +17,16 @@
     margin: 40px;
     margin-left: 60px;
 }
-
+/* 
 .user-display {
     padding-bottom: 10px;
-}
+} */
 
-.white-circle {
-    width: 200px;
-    height: 200px;
-    background-color: white;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-  }
+.user-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
 
   .username-tag {
     font-weight: bold;
@@ -69,7 +67,7 @@
   .food-imgs {
     margin-top: -100px;
     margin-left: -100px;
-    height: 200px;
+    height: 250px;
   }
   
   .popular-recipes-grid-item:hover {
