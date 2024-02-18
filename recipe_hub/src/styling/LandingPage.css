@@ -58,11 +58,17 @@
   
   .popular-recipes-grid-item {
     /* Additional styling for grid items, if needed */
-    background-color: #f0f0f0;
+    background-color: #f0f0f0; 
     padding: 100px;
     width: 400px;
     height: 80px;
     text-align: center;
+  }
+
+  .food-imgs {
+    margin-top: -100px;
+    margin-left: -100px;
+    height: 200px;
   }
   
   .popular-recipes-grid-item:hover {
