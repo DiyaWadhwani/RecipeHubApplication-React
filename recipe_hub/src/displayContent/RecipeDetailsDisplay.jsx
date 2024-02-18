@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import RecipeImageDisplay from "../displayContent/RecipeImageDisplay";
 import PropTypes from "prop-types";
 
 export default class RecipeDetailsDisplay extends Component {
@@ -8,23 +9,24 @@ export default class RecipeDetailsDisplay extends Component {
       <>
         {recipeDetails && recipeDetails.recipeName ? (
           <>
-            <div className="author-tag">
-              <p className="author-text">{recipeDetails.recipeAuthor}</p>
-            </div>
-            <div className="content-container">
-              <div className="ingredients-section">
-                <h3>Ingredients:</h3>
-                <ul>
-                  {Object.entries(recipeDetails.recipeIngredients).map(
-                    ([ingredient, qty]) => (
-                      <li key={ingredient}>
-                        {ingredient}: {qty}
-                      </li>
-                    )
-                  )}
-                </ul>
+            <div className="recipe-image-ing-display">
+              <RecipeImageDisplay recipeName={recipeDetails.recipeName} />
+              <div className="content-container">
+                <div className="ingredients-section">
+                  <h3>Ingredients:</h3>
+                  <ul>
+                    {Object.entries(recipeDetails.recipeIngredients).map(
+                      ([ingredient, qty]) => (
+                        <li key={ingredient}>
+                          {ingredient}: {qty}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
               </div>
             </div>
+
             <div className="instructions-section">
               <h3>Prep:</h3>
               <ol>

@@ -38,7 +38,11 @@ export default class RecipeImageDisplay extends Component {
     return (
       <div>
         {imageUrl ? (
-          <img src={imageUrl} alt="Downloaded" />
+          <img
+            className="recipe-image-display"
+            src={imageUrl}
+            alt="Downloaded"
+          />
         ) : (
           <p>Loading image...</p>
         )}
