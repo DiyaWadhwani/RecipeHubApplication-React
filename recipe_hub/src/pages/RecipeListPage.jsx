@@ -3,6 +3,7 @@ import "../styling/RecipeList.css";
 import EmptyHeader from "../fragments/EmptyHeader";
 import Footer from "../fragments/Footer";
 import { Link } from "react-router-dom";
+import { IoArrowBackOutline } from "react-icons/io5";
 import RecipeDetails from "../models/RecipeDetails";
 
 export default class RecipeListPage extends Component {
@@ -20,15 +21,38 @@ export default class RecipeListPage extends Component {
     console.log("Recipes fetched:", this.state.recipes);
   }
 
-  fetchRecipes = async () => {
+  async fetchRecipes() {
     try {
-      const recipes = await this.recipeDetails.fetchRecipeNames();
-      console.log("Recipes from fetchRecipes:", recipes);
-      this.setState({ recipes });
+      const { pathname } = new URL(window.location.href);
+
+      if (pathname === "/myList") {
+        // Fetching my created recipes
+        console.log("Maintaining my recipes");
+        const myRecipes = await this.recipeDetails.fetchMyRecipeNames();
+        console.log("Recipes from fetchMyRecipeNames:", myRecipes);
+        this.setState({ recipes: myRecipes }, () => {
+          console.log("Updated state:", this.state.recipes);
+        });
+      } else if (pathname === "/myForkedList") {
+        // Fetching my forked recipes
+        console.log("Maintaining forked recipes");
+        const forkedRecipes = await this.recipeDetails.fetchForkedRecipeNames();
+        console.log("Recipes from fetchForkedRecipeNames:", forkedRecipes);
+        this.setState({ recipes: forkedRecipes });
+      } else {
+        // Fetching the entire list of recipes
+        const allRecipes = await this.recipeDetails.fetchRecipeNames();
+        console.log("Recipes from fetchRecipes:", allRecipes);
+        this.setState({ recipes: allRecipes });
+      }
     } catch (error) {
       console.error("Error fetching recipes in RecipeList:", error);
     }
-  };
+  }
+
+  async containMyRecipes(recipes) {
+    this.recipeDetails.fetchMyCreatedRecipes(recipes);
+  }
 
   render() {
     const { recipes } = this.state;
@@ -40,6 +64,10 @@ export default class RecipeListPage extends Component {
         <div className="body">
           {/* separation between Navbar and page content */}
           <div className="sep-line"></div>
+
+          <Link to="/">
+            <IoArrowBackOutline className="back-arrow" />
+          </Link>
 
           <form className="find-recipe search-form d-flex">
             <input
@@ -62,11 +90,9 @@ export default class RecipeListPage extends Component {
           <div className="recipe-list">
             {recipes.length > 0 ? (
               <ul className="list-unstyled">
-                {recipes.map((recipe) => (
-                  <li key={recipe.id}>
-                    <Link to={`/recipe?recipe_name=${recipe.id}`}>
-                      {recipe.id}
-                    </Link>
+                {recipes.map((recipe, index) => (
+                  <li key={index}>
+                    <Link to={`/recipe?recipe_name=${recipe}`}>{recipe}</Link>
                   </li>
                 ))}
               </ul>

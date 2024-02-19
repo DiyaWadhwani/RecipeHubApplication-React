@@ -12,6 +12,14 @@ import CreateRecipePage from "./pages/CreateRecipePage.jsx";
 
 const router = createBrowserRouter([
   {
+    path: "/myList",
+    element: <RecipeListPage />,
+  },
+  {
+    path: "/myForkedList",
+    element: <RecipeListPage />,
+  },
+  {
     path: "/newUpdate",
     element: <CreateRecipePage />,
   },

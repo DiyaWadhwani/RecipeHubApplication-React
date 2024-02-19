@@ -28,14 +28,40 @@ export default class MyFirebaseDB {
       const recipeList = [];
 
       for (let doc of recipesCollection.docs) {
-        recipeList.push({
-          id: doc.id,
-        });
+        recipeList.push(doc.id);
       }
       return recipeList;
     } catch (error) {
       console.error("Error fetching recipes:", error);
       return [];
+    }
+  }
+
+  async fetchUserSpecificRecipeNames(fieldValue) {
+    try {
+      const userCollectionRef = collection(this.db, "users");
+      const userCollectionSnap = await getDocs(userCollectionRef);
+
+      if (!userCollectionSnap.empty) {
+        const firstUserDoc = userCollectionSnap.docs[0];
+        const userDocRef = doc(this.db, "users", firstUserDoc.id);
+
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userDocData = userDocSnap.data();
+          console.log("userDocData -- ", userDocData);
+
+          const currentRecipeNameList = userDocData[fieldValue] || [];
+
+          console.log("Fetched current recipes", currentRecipeNameList);
+          return currentRecipeNameList;
+        } else {
+          console.log("User document does not exist.");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating createdRecipes array:", error);
     }
   }
 
@@ -183,7 +209,7 @@ export default class MyFirebaseDB {
     }
   }
 
-  async addForkedRecipeToUser(recipeName) {
+  async addForkedRecipeNameToUser(recipeName) {
     try {
       const userCollectionRef = collection(this.db, "users");
       const userCollectionSnap = await getDocs(userCollectionRef);

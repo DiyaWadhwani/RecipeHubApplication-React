@@ -6,7 +6,6 @@ import "../styling/CreateRecipePage.css";
 import MyFirebaseDB from "../models/MyFirebaseDB";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import ForkedRecipeListPage from "./UserContributionPage";
 
 export default class CreateRecipePage extends Component {
   constructor(props) {
@@ -115,7 +114,7 @@ export default class CreateRecipePage extends Component {
 
     //Send data to firebase
     if (isForked) {
-      this.myDatabase.addForkedRecipeToUser(recipeDetails.recipeName);
+      this.myDatabase.addForkedRecipeNameToUser(recipeDetails.recipeName);
     } else {
       const response = this.myDatabase.addRecipeToFirestore(recipeDetails);
       console.log("Response from adding to the db -- ", response);
@@ -134,8 +133,7 @@ export default class CreateRecipePage extends Component {
   };
 
   render() {
-    const { recipeName, ingredients, instructions, authorName, isForked } =
-      this.state;
+    const { recipeName, ingredients, instructions, authorName } = this.state;
 
     return (
       <>
@@ -241,8 +239,6 @@ export default class CreateRecipePage extends Component {
             </button>
           </form>
         </div>
-        {/* Conditionally render ForkedRecipeList based on isForked */}
-        {isForked && <ForkedRecipeListPage recipeDetails={this.state} />}
       </>
     );
   }

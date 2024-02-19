@@ -13,13 +13,13 @@ export default class NavBar extends Component {
                 <Link to="/underConstruction">Overview</Link>
               </li>
               <li className="me-3">
-                <Link to="/recipeList">Recipes</Link>
+                <Link to="/recipeList">All Recipes</Link>
               </li>
               <li className="me-3">
-                <Link to="/underConstruction">Contributions</Link>
+                <Link to="/myList">My Recipes</Link>
               </li>
               <li className="me-3">
-                <Link to="/underConstruction">Favorites</Link>
+                <Link to="/myForkedList">Forked Recipes</Link>
               </li>
             </ul>
           </div>

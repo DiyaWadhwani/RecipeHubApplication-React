@@ -15,29 +15,51 @@ export default class RecipeDetails {
     this.recipeIngredients = recipeIngredients;
     this.recipeInstructions = recipeInstructions;
     this.recipeImageURL = recipeImageURL;
+    this.myDatabase = new MyFirebaseDB();
   }
 
   async fetchRecipeDetails(recipeName, setStateCallback) {
     try {
-      const myDatabase = new MyFirebaseDB();
-      const fetchedRecipeDetails = await myDatabase.fetchRecipeDetails(
+      // const myDatabase = new MyFirebaseDB();
+      const fetchedRecipeDetails = await this.myDatabase.fetchRecipeDetails(
         recipeName,
         setStateCallback
       );
       return fetchedRecipeDetails;
     } catch (error) {
-      console.error("Error fetching recipes in RecipeManager:", error);
+      console.error("Error fetching recipes in RecipeDetails:", error);
       return [];
     }
   }
   async fetchRecipeNames() {
     try {
       const myDatabase = new MyFirebaseDB();
-      const recipes = await myDatabase.fetchRecipeNames();
-      this.recipeList = recipes;
-      return this.recipeList;
+      const allRecipes = await myDatabase.fetchRecipeNames();
+      return allRecipes;
     } catch (error) {
-      console.error("Error fetching recipes in RecipeManager:", error);
+      console.error("Error fetching recipes in RecipeDetails:", error);
+      return [];
+    }
+  }
+
+  async fetchMyRecipeNames() {
+    try {
+      const myRecipes =
+        this.myDatabase.fetchUserSpecificRecipeNames("createdRecipes");
+      return myRecipes;
+    } catch (error) {
+      console.error("Error fetching recipes in RecipeDetails:", error);
+      return [];
+    }
+  }
+
+  async fetchForkedRecipeNames() {
+    try {
+      const forkedRecipes =
+        this.myDatabase.fetchUserSpecificRecipeNames("forkedRecipes");
+      return forkedRecipes;
+    } catch (error) {
+      console.error("Error fetching recipes in RecipeDetails:", error);
       return [];
     }
   }
