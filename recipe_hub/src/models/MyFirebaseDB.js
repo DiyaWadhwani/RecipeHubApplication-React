@@ -209,8 +209,10 @@ export default class MyFirebaseDB {
     }
   }
 
-  async addForkedRecipeNameToUser(recipeName) {
+  async addForkedRecipeToUser(recipeDetails) {
     try {
+      console.log("Adding forked recipe name to user");
+
       const userCollectionRef = collection(this.db, "users");
       const userCollectionSnap = await getDocs(userCollectionRef);
 
@@ -221,19 +223,55 @@ export default class MyFirebaseDB {
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
-          const userDocData = userDocSnap.data();
+          console.log("userdocsnap exists", userDocSnap);
+          const forkedRecipesCollectionRef = collection(
+            userDocRef,
+            "forkedRecipes"
+          );
 
-          const currentCreatedRecipes = userDocData.createdRecipes || [];
+          // Extract data from recipeDetails
+          const {
+            recipeName,
+            recipeAuthor,
+            recipeInstructions,
+            recipeIngredients,
+          } = recipeDetails;
 
-          // Add the new value to the array
-          const updatedCreatedRecipes = [...currentCreatedRecipes, recipeName];
+          console.log("extracted data and building object");
+          // Build the newRecipeData object
+          const newRecipeData = {
+            author: recipeAuthor,
+            instructions: recipeInstructions,
+          };
 
-          // Update the document with the new 'createdRecipes' array
-          await updateDoc(userDocRef, {
-            createdRecipes: updatedCreatedRecipes,
+          // Use setDoc to add a new document to the forkedRecipes collection
+          const newRecipeDocRef = doc(forkedRecipesCollectionRef, recipeName);
+          await setDoc(newRecipeDocRef, newRecipeData);
+
+          console.log(
+            "New recipe added to forkedRecipes collection with ID:",
+            newRecipeDocRef.id
+          );
+
+          // Create a new collection for ingredients
+          const ingredientsCollectionRef = collection(
+            newRecipeDocRef,
+            "ingredients"
+          );
+
+          // Add each ingredient to the ingredients collection
+          recipeIngredients.forEach(async (ingredient) => {
+            const ingredientData = {
+              qty: ingredient.quantity,
+            };
+
+            await setDoc(
+              doc(ingredientsCollectionRef, ingredient.ingredientName),
+              ingredientData
+            );
           });
 
-          console.log("Value added to createdRecipes array successfully.");
+          console.log("New forked recipe added to collection forkedRecipes");
         } else {
           console.log("User document does not exist.");
         }

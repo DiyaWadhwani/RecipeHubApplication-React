@@ -107,14 +107,17 @@ export default class CreateRecipePage extends Component {
         (ingredient) =>
           new Ingredient(ingredient.ingredientName, ingredient.quantity)
       ),
+      isForked: true,
     });
+
+    this.setState({ recipeDetails: recipeDetails });
 
     // Log the instances to the console
     console.log("RecipeDetails instance:", recipeDetails);
 
     //Send data to firebase
     if (isForked) {
-      this.myDatabase.addForkedRecipeNameToUser(recipeDetails.recipeName);
+      this.myDatabase.addForkedRecipeToUser(recipeDetails);
     } else {
       const response = this.myDatabase.addRecipeToFirestore(recipeDetails);
       console.log("Response from adding to the db -- ", response);
