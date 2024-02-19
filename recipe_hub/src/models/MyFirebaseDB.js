@@ -216,6 +216,4 @@ export default class MyFirebaseDB {
       console.error("Error updating createdRecipes array:", error);
     }
   }
-
-  
 }

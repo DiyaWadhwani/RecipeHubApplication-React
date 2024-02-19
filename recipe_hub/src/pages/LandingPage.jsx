@@ -4,7 +4,6 @@ import Header from "../fragments/Header";
 import NavBar from "../fragments/NavBar";
 import UserModuleDisplay from "../displayContent/UserModuleDisplay";
 import LandingRecipesDisplay from "../displayContent/LandingRecipesDisplay";
-import ContributionDisplay from "../displayContent/ContributionDisplay";
 import Footer from "../fragments/Footer";
 
 export default class LandingPage extends Component {
@@ -23,7 +22,6 @@ export default class LandingPage extends Component {
             <UserModuleDisplay />
             <LandingRecipesDisplay />
           </div>
-          <ContributionDisplay />
         </div>
         <Footer />
       </>

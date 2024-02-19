@@ -6,7 +6,7 @@ import "../styling/CreateRecipePage.css";
 import MyFirebaseDB from "../models/MyFirebaseDB";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import ForkedRecipeListPage from "./ForkedRecipeListPage";
+import ForkedRecipeListPage from "./UserContributionPage";
 
 export default class CreateRecipePage extends Component {
   constructor(props) {

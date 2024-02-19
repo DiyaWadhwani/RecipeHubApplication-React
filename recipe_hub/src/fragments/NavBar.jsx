@@ -16,7 +16,7 @@ export default class NavBar extends Component {
                 <Link to="/recipeList">Recipes</Link>
               </li>
               <li className="me-3">
-                <Link to="/underConstruction">Collaborations</Link>
+                <Link to="/underConstruction">Contributions</Link>
               </li>
               <li className="me-3">
                 <Link to="/underConstruction">Favorites</Link>
