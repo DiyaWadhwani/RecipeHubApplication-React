@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage.jsx";
 import RecipeDetailsPage from "./pages/RecipeDetailsPage.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
@@ -11,32 +10,26 @@ import RecipeListPage from "./pages/RecipeListPage.jsx";
 import UnderConstructionPage from "./pages/UnderConstructionPage.jsx";
 import CreateRecipePage from "./pages/CreateRecipePage.jsx";
 
-const isAuthenticated = false; // Add your authentication logic here
-
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
     path: "/newUpdate",
-    element: isAuthenticated ? <CreateRecipePage /> : <LoginPage />,
+    element: <CreateRecipePage />,
   },
   {
     path: "/underConstruction",
-    element: isAuthenticated ? <UnderConstructionPage /> : <LoginPage />,
+    element: <UnderConstructionPage />,
   },
   {
     path: "/recipeList",
-    element: isAuthenticated ? <RecipeListPage /> : <LoginPage />,
+    element: <RecipeListPage />,
   },
   {
     path: "/recipe",
-    element: isAuthenticated ? <RecipeDetailsPage /> : <LoginPage />,
+    element: <RecipeDetailsPage />,
   },
   {
     path: "/",
-    element: isAuthenticated ? <LandingPage /> : <LoginPage />,
+    element: <LandingPage />,
     errorElement: <ErrorPage />,
   },
 ]);
