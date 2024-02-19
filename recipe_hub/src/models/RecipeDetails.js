@@ -1,8 +1,6 @@
 import Ingredient from "./Ingredient";
-// import MyFirebaseDB from "./MyFirebaseDB";
 import PropTypes from "prop-types";
 import MyFirebaseDB from "./MyFirebaseDB";
-// import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 
 export default class RecipeDetails {
   constructor({
