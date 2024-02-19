@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import EmptyHeader from "../fragments/EmptyHeader";
+import RecipeDetails from "../models/RecipeDetails";
+import Ingredient from "../models/Ingredient";
 import "../styling/CreateRecipePage.css";
+import MyFirebaseDB from "../models/MyFirebaseDB";
 
 export default class CreateRecipePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       recipeName: "",
-      ingredients: [{ name: "", quantity: "" }],
+      ingredients: [{ ingredientName: "", quantity: "" }],
       instructions: [""],
       authorName: "",
+      imageFile: null,
     };
+    this.myDatabase = new MyFirebaseDB();
   }
 
   handleChange = (e) => {
@@ -34,7 +39,10 @@ export default class CreateRecipePage extends Component {
 
   handleAddIngredient = () => {
     this.setState((prevState) => ({
-      ingredients: [...prevState.ingredients, { name: "", quantity: "" }],
+      ingredients: [
+        ...prevState.ingredients,
+        { ingredientName: "", quantity: "" },
+      ],
     }));
   };
 
@@ -44,21 +52,41 @@ export default class CreateRecipePage extends Component {
     }));
   };
 
+  handleImageChange = (e) => {
+    const file = e.target.files[0];
+    this.setState({ imageFile: file });
+  };
+
   onCreate = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
 
-    console.log("onCreate", Object.fromEntries(formData));
+    // Create instances of RecipeDetails and Ingredient based on user input
+    const recipeDetails = new RecipeDetails({
+      recipeName: this.state.recipeName,
+      recipeAuthor: this.state.authorName,
+      recipeInstructions: this.state.instructions,
+      recipeImageURL: this.state.imageFile,
+      recipeIngredients: this.state.ingredients.map(
+        (ingredient) =>
+          new Ingredient(ingredient.ingredientName, ingredient.quantity)
+      ),
+    });
 
-    event.target.querySelector("input[name=recipeName]").value = "";
-    event.target.querySelector("input[name=ingredientName]").value = "";
-    event.target.querySelector("input[name=quantity]").value = "";
-    event.target.querySelector("input[name=instruction]").value = "";
-    event.target.querySelector("input[name=authorName]").value = "";
+    // Log the instances to the console
+    console.log("RecipeDetails instance:", recipeDetails);
 
-    // this.props.onCreateInteraction(Object.fromEntries(formData));
-    // Perform actions with the form data, such as sending it to a server
-    console.log("Form data submitted:", this.state);
+    //Send data to firebase
+    const response = this.myDatabase.addRecipeToFirestore(recipeDetails);
+    console.log("Response from adding to the db -- ", response);
+
+    // Clear form inputs
+    this.setState({
+      recipeName: "",
+      ingredients: [{ ingredientName: "", quantity: "" }],
+      instructions: [""],
+      authorName: "",
+      imageFile: null,
+    });
   };
 
   render() {

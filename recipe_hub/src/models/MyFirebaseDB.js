@@ -1,6 +1,6 @@
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { setDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
 import firebaseConfigInstance from "./FirebaseConfig";
-import { ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import RecipeDetails from "./RecipeDetails";
 import Ingredient from "./Ingredient";
 
@@ -32,65 +32,16 @@ export default class MyFirebaseDB {
     }
   }
 
-  // async fetchRecipeDetails(recipeName, setStateCallback) {
-  //   try {
-  //     this.myDatabase = new MyFirebaseDB();
-  //     const recipeDocRef = doc(this.myDatabase.db, "recipes", recipeName);
-  //     console.log("recipeDocref created", recipeDocRef);
-  //     const recipeDocSnap = await getDoc(recipeDocRef);
-
-  //     if (recipeDocSnap.exists()) {
-  //       const recipeDetails = recipeDocSnap.data();
-  //       // Fetch ingredients
-  //       const ingredientsRef = collection(
-  //         this.myDatabase.db,
-  //         "recipes",
-  //         recipeName,
-  //         "ingredients"
-  //       );
-  //       const ingredientsSnap = await getDocs(ingredientsRef);
-
-  //       // Map ingredients data
-  //       const ingredientDict = {};
-  //       ingredientsSnap.docs.forEach((doc) => {
-  //         const data = doc.data();
-  //         const ingredientName = doc.id;
-  //         const quantity = data.qty;
-  //         ingredientDict[ingredientName] = quantity;
-  //       });
-
-  //       setStateCallback({
-  //         recipeDetails: {
-  //           recipeIngredients: ingredientDict,
-  //           recipeInstructions: recipeDetails.instructions,
-  //           recipeAuthor: recipeDetails.author,
-  //           recipeName: recipeName,
-  //         },
-  //       });
-
-  //       console.log("Recipe Details fetched:", this.state.recipeDetails);
-  //       return this.state.recipeDetails;
-  //     } else {
-  //       console.log("Recipe not found -- js file");
-  //       return null;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching recipe details:", error);
-  //     return null;
-  //   }
-  // }
-
   async fetchRecipeDetails(recipeName) {
     try {
-      this.myDatabase = new MyFirebaseDB();
-      const recipeDocRef = doc(this.myDatabase.db, "recipes", recipeName);
+      const recipeDocRef = doc(this.db, "recipes", recipeName);
       const recipeDocSnap = await getDoc(recipeDocRef);
 
       if (recipeDocSnap.exists()) {
         const recipeDocumentData = recipeDocSnap.data();
         // Fetch ingredients
         const ingredientsRef = collection(
-          this.myDatabase.db,
+          this.db,
           "recipes",
           recipeName,
           "ingredients"
@@ -134,6 +85,55 @@ export default class MyFirebaseDB {
       return url;
     } catch (error) {
       console.error("Error downloading image:", error);
+    }
+  }
+
+  async addRecipeToFirestore(recipeDetails) {
+    try {
+      console.log("Adding recipe to firestore now !!");
+
+      // Step 1: Upload image to Firebase Storage
+      console.log("step 1 - uploading");
+      const imageFile = recipeDetails.recipeImageURL;
+      const storageRef = ref(
+        this.storage,
+        `/images/${recipeDetails.recipeName}.png`
+      );
+      await uploadBytes(storageRef, imageFile);
+      // const uploadedImageURL = await getDownloadURL(storageRef);
+      console.log("step 1 completed");
+
+      // Step 2: Add or update the recipe document with the image URL
+      console.log("step 2 -- update doc with image url");
+      const recipeRef = doc(this.db, "recipes", recipeDetails.recipeName);
+      await setDoc(recipeRef, {
+        author: recipeDetails.recipeAuthor,
+        instructions: recipeDetails.recipeInstructions,
+        // imageUrl: uploadedImageURL,
+      });
+      console.log("step 2 completed");
+
+      //Step 3: Add or update ingredient documents
+      console.log("Step 3 - adding ingrds");
+      for (const ingredient of recipeDetails.recipeIngredients) {
+        const ingredientRef = doc(
+          this.db,
+          "recipes",
+          recipeDetails.recipeName,
+          "ingredients",
+          ingredient.ingredientName
+        );
+
+        // Set the qty field in the ingredient document
+        await setDoc(ingredientRef, {
+          qty: ingredient.quantity,
+        });
+      }
+      console.log("step 3 completed");
+
+      console.log("Recipe added successfully!");
+    } catch (error) {
+      console.error("Error adding recipe to Firestore:", error);
     }
   }
 }
