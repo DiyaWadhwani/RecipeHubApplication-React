@@ -6,6 +6,7 @@ import "../styling/CreateRecipePage.css";
 import MyFirebaseDB from "../models/MyFirebaseDB";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import ForkedRecipeListPage from "./ForkedRecipeListPage";
 
 export default class CreateRecipePage extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class CreateRecipePage extends Component {
       instructions: [""],
       authorName: "",
       imageFile: null,
+      isForked: false,
     };
     this.myDatabase = new MyFirebaseDB();
   }
@@ -24,8 +26,6 @@ export default class CreateRecipePage extends Component {
     // Check if query parameters exist
     const urlParams = new URLSearchParams(window.location.search);
     const recipeDetailsParam = urlParams.get("recipe_details");
-
-    console.log("recipeDetailsParam:", typeof recipeDetailsParam);
 
     if (recipeDetailsParam) {
       try {
@@ -46,6 +46,7 @@ export default class CreateRecipePage extends Component {
           instructions: recipeDetails.recipeInstructions,
           authorName: recipeDetails.recipeAuthor,
           imageFile: recipeDetails.recipeName + ".png",
+          isForked: true,
         });
       } catch (error) {
         console.error("Error parsing recipeDetailsParam:", error);
@@ -95,6 +96,8 @@ export default class CreateRecipePage extends Component {
   onCreate = (event) => {
     event.preventDefault();
 
+    const { isForked } = this.state;
+
     // Create instances of RecipeDetails and Ingredient based on user input
     const recipeDetails = new RecipeDetails({
       recipeName: this.state.recipeName,
@@ -111,8 +114,12 @@ export default class CreateRecipePage extends Component {
     console.log("RecipeDetails instance:", recipeDetails);
 
     //Send data to firebase
-    const response = this.myDatabase.addRecipeToFirestore(recipeDetails);
-    console.log("Response from adding to the db -- ", response);
+    if (isForked) {
+      this.myDatabase.addForkedRecipeToUser(recipeDetails.recipeName);
+    } else {
+      const response = this.myDatabase.addRecipeToFirestore(recipeDetails);
+      console.log("Response from adding to the db -- ", response);
+    }
 
     // Clear form inputs
     this.setState({
@@ -127,7 +134,8 @@ export default class CreateRecipePage extends Component {
   };
 
   render() {
-    const { recipeName, ingredients, instructions, authorName } = this.state;
+    const { recipeName, ingredients, instructions, authorName, isForked } =
+      this.state;
 
     return (
       <>
@@ -225,7 +233,6 @@ export default class CreateRecipePage extends Component {
                 className="form-control"
                 // value={imageFile}
                 onChange={this.handleImageChange}
-                required
               />
             </div>
 
@@ -234,6 +241,8 @@ export default class CreateRecipePage extends Component {
             </button>
           </form>
         </div>
+        {/* Conditionally render ForkedRecipeList based on isForked */}
+        {isForked && <ForkedRecipeListPage recipeDetails={this.state} />}
       </>
     );
   }

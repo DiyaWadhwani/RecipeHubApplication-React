@@ -1,4 +1,11 @@
-import { setDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  updateDoc,
+} from "firebase/firestore";
 import firebaseConfigInstance from "./FirebaseConfig";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import RecipeDetails from "./RecipeDetails";
@@ -132,9 +139,83 @@ export default class MyFirebaseDB {
       }
       console.log("step 3 completed");
 
+      //Step 4: Add it to users createdRecipes
+      console.log("Step 4 - update user contributions");
+      this.addNewRecipeNameToUser(recipeDetails.recipeName);
+
       console.log("Recipe added successfully!");
     } catch (error) {
       console.error("Error adding recipe to Firestore:", error);
     }
   }
+
+  async addNewRecipeNameToUser(recipeName) {
+    try {
+      const userCollectionRef = collection(this.db, "users");
+      const userCollectionSnap = await getDocs(userCollectionRef);
+
+      if (!userCollectionSnap.empty) {
+        const firstUserDoc = userCollectionSnap.docs[0];
+        const userDocRef = doc(this.db, "users", firstUserDoc.id);
+
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userDocData = userDocSnap.data();
+
+          const currentCreatedRecipes = userDocData.createdRecipes || [];
+
+          // Add the new value to the array
+          const updatedCreatedRecipes = [...currentCreatedRecipes, recipeName];
+
+          // Update the document with the new 'createdRecipes' array
+          await updateDoc(userDocRef, {
+            createdRecipes: updatedCreatedRecipes,
+          });
+
+          console.log("Value added to createdRecipes array successfully.");
+        } else {
+          console.log("User document does not exist.");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating createdRecipes array:", error);
+    }
+  }
+
+  async addForkedRecipeToUser(recipeName) {
+    try {
+      const userCollectionRef = collection(this.db, "users");
+      const userCollectionSnap = await getDocs(userCollectionRef);
+
+      if (!userCollectionSnap.empty) {
+        const firstUserDoc = userCollectionSnap.docs[0];
+        const userDocRef = doc(this.db, "users", firstUserDoc.id);
+
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userDocData = userDocSnap.data();
+
+          const currentCreatedRecipes = userDocData.createdRecipes || [];
+
+          // Add the new value to the array
+          const updatedCreatedRecipes = [...currentCreatedRecipes, recipeName];
+
+          // Update the document with the new 'createdRecipes' array
+          await updateDoc(userDocRef, {
+            createdRecipes: updatedCreatedRecipes,
+          });
+
+          console.log("Value added to createdRecipes array successfully.");
+        } else {
+          console.log("User document does not exist.");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating createdRecipes array:", error);
+    }
+  }
+
+  
 }
