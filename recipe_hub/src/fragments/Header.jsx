@@ -3,6 +3,9 @@ import recipehubLogo from "../assets/recipehub-logo.png";
 import "../styling/Header.css";
 
 export default class Header extends Component {
+  handleInputClick = () => {
+    alert("This feature has been disabled!");
+  };
   render() {
     return (
       <>
@@ -21,10 +24,13 @@ export default class Header extends Component {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                onClick={this.handleInputClick}
+                disabled
               />
               <button
                 className="search-button btn btn-outline-success"
                 type="submit"
+                onMouseDown={this.handleInputClick}
               >
                 Search
               </button>

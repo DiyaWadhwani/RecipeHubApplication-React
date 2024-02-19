@@ -20,9 +20,6 @@ export default class RecipeDetails {
 
   async fetchRecipeDetails(recipeName, isForked) {
     try {
-      // Log the value just before the conditional check
-      console.log("Type of isForked:", typeof isForked);
-
       console.log("checking isForked to fetch recipe", isForked);
 
       if (isForked === "true") {

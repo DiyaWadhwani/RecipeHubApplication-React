@@ -16,6 +16,10 @@ export default class RecipeListPage extends Component {
     this.recipeDetails = new RecipeDetails();
   }
 
+  handleInputClick = () => {
+    alert("This feature has been disabled!");
+  };
+
   async componentDidMount() {
     console.log("Component mounted");
     await this.fetchRecipes();
@@ -75,6 +79,8 @@ export default class RecipeListPage extends Component {
               type="search"
               placeholder="Find a recipe"
               aria-label="Search"
+              onClick={this.handleInputClick}
+              disabled
             />
             <div className="random-padding"></div>
             <Link to="/newUpdate">
