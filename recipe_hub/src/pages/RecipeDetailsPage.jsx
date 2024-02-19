@@ -66,10 +66,14 @@ export default class RecipeDetailsPage extends Component {
               <p className="author-text">{recipeDetails.recipeAuthor}</p>
             </div>
           </div>
-          <div className="fork-tag">
-            <BiFork className="fork-icon" />
-            <p className="fork-text">Fork</p>
-          </div>
+          <Link
+            to={`/newUpdate?recipe_details=${encodeURIComponent(JSON.stringify(recipeDetails))}`}
+          >
+            <div className="fork-tag">
+              <BiFork className="fork-icon" />
+              <p className="fork-text">Fork</p>
+            </div>
+          </Link>
           <RecipeDetailsDisplay recipeDetails={recipeDetails} />
           <div></div>
         </div>

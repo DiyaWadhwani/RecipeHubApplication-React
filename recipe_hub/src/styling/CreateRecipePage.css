@@ -13,6 +13,16 @@
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+}
+
+.form-styling form {
+  max-height: 120vh;
+  overflow-y: auto;
+}
+
+.form-label {
+  font-weight: 600;
 }
 
 .custom-btn {

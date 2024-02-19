@@ -4,6 +4,8 @@ import RecipeDetails from "../models/RecipeDetails";
 import Ingredient from "../models/Ingredient";
 import "../styling/CreateRecipePage.css";
 import MyFirebaseDB from "../models/MyFirebaseDB";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 export default class CreateRecipePage extends Component {
   constructor(props) {
@@ -16,6 +18,39 @@ export default class CreateRecipePage extends Component {
       imageFile: null,
     };
     this.myDatabase = new MyFirebaseDB();
+  }
+
+  componentDidMount() {
+    // Check if query parameters exist
+    const urlParams = new URLSearchParams(window.location.search);
+    const recipeDetailsParam = urlParams.get("recipe_details");
+
+    console.log("recipeDetailsParam:", typeof recipeDetailsParam);
+
+    if (recipeDetailsParam) {
+      try {
+        // Check if recipeDetailsParam is already an object
+        const recipeDetails =
+          typeof recipeDetailsParam === "string"
+            ? JSON.parse(decodeURIComponent(recipeDetailsParam))
+            : recipeDetailsParam;
+
+        console.log(
+          "recipeDetails -- ",
+          recipeDetails.recipeAuthor,
+          recipeDetails.recipeIngredients
+        );
+        this.setState({
+          recipeName: recipeDetails.recipeName,
+          ingredients: recipeDetails.recipeIngredients,
+          instructions: recipeDetails.recipeInstructions,
+          authorName: recipeDetails.recipeAuthor,
+          imageFile: recipeDetails.recipeName + ".png",
+        });
+      } catch (error) {
+        console.error("Error parsing recipeDetailsParam:", error);
+      }
+    }
   }
 
   handleChange = (e) => {
@@ -87,6 +122,8 @@ export default class CreateRecipePage extends Component {
       authorName: "",
       imageFile: null,
     });
+
+    alert("Thank you for sharing your recipe to RecipeHub!");
   };
 
   render() {
@@ -95,21 +132,25 @@ export default class CreateRecipePage extends Component {
     return (
       <>
         <EmptyHeader headerTag="RecipeHub" />
+        <Link to="/recipeList">
+          <IoArrowBackOutline className="back-arrow" />
+        </Link>
         <div className="form-styling">
           <form onSubmit={this.onCreate} className="container mt-4">
             <div className="mb-3">
-              <label className="form-label">Recipe Name:</label>
+              <label className="form-label">Recipe Name(required) :</label>
               <input
                 type="text"
                 className="form-control"
                 name="recipeName"
                 value={recipeName}
                 onChange={this.handleChange}
+                required
               />
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Ingredients:</label>
+              <label className="form-label">Ingredients(required) :</label>
               {ingredients.map((ingredient, index) => (
                 <div key={index} className="mb-2">
                   <input
@@ -117,8 +158,9 @@ export default class CreateRecipePage extends Component {
                     className="form-control"
                     name="ingredientName"
                     placeholder="Ingredient Name"
-                    value={ingredient.name}
+                    value={ingredient.ingredientName}
                     onChange={(e) => this.handleIngredientChange(e, index)}
+                    required
                   />
                   <input
                     type="text"
@@ -127,6 +169,7 @@ export default class CreateRecipePage extends Component {
                     placeholder="Quantity"
                     value={ingredient.quantity}
                     onChange={(e) => this.handleIngredientChange(e, index)}
+                    required
                   />
                 </div>
               ))}
@@ -140,7 +183,7 @@ export default class CreateRecipePage extends Component {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Instructions:</label>
+              <label className="form-label">Instructions(required) :</label>
               {instructions.map((instruction, index) => (
                 <div key={index} className="mb-2">
                   <textarea
@@ -149,6 +192,7 @@ export default class CreateRecipePage extends Component {
                     placeholder={`Step ${index + 1}`}
                     value={instruction}
                     onChange={(e) => this.handleInstructionChange(e, index)}
+                    required
                   />
                 </div>
               ))}
@@ -162,23 +206,26 @@ export default class CreateRecipePage extends Component {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Author Name:</label>
+              <label className="form-label">Author Name(required) :</label>
               <input
                 type="text"
                 className="form-control"
                 name="authorName"
                 value={authorName}
                 onChange={this.handleChange}
+                required
               />
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Upload Image:</label>
+              <label className="form-label">Upload Image(optional) :</label>
               <input
                 type="file"
                 accept="image/*"
                 className="form-control"
+                // value={imageFile}
                 onChange={this.handleImageChange}
+                required
               />
             </div>
 

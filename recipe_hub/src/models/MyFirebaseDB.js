@@ -39,6 +39,7 @@ export default class MyFirebaseDB {
 
       if (recipeDocSnap.exists()) {
         const recipeDocumentData = recipeDocSnap.data();
+
         // Fetch ingredients
         const ingredientsRef = collection(
           this.db,
