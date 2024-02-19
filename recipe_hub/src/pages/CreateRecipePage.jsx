@@ -52,23 +52,25 @@ export default class CreateRecipePage extends Component {
     const { recipeName, ingredients, instructions, authorName } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Recipe Name:
+      <form onSubmit={this.handleSubmit} className="container mt-4">
+        <div className="mb-3">
+          <label className="form-label">Recipe Name:</label>
           <input
             type="text"
+            className="form-control"
             name="recipeName"
             value={recipeName}
             onChange={this.handleChange}
           />
-        </label>
+        </div>
 
-        <div>
-          <label>Ingredients:</label>
+        <div className="mb-3">
+          <label className="form-label">Ingredients:</label>
           {ingredients.map((ingredient, index) => (
-            <div key={index}>
+            <div key={index} className="mb-2">
               <input
                 type="text"
+                className="form-control"
                 name="name"
                 placeholder="Ingredient Name"
                 value={ingredient.name}
@@ -76,6 +78,7 @@ export default class CreateRecipePage extends Component {
               />
               <input
                 type="text"
+                className="form-control mt-2"
                 name="quantity"
                 placeholder="Quantity"
                 value={ingredient.quantity}
@@ -83,16 +86,21 @@ export default class CreateRecipePage extends Component {
               />
             </div>
           ))}
-          <button type="button" onClick={this.handleAddIngredient}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={this.handleAddIngredient}
+          >
             Add Ingredient
           </button>
         </div>
 
-        <div>
-          <label>Instructions:</label>
+        <div className="mb-3">
+          <label className="form-label">Instructions:</label>
           {instructions.map((instruction, index) => (
-            <div key={index}>
+            <div key={index} className="mb-2">
               <textarea
+                className="form-control"
                 name="instruction"
                 placeholder={`Step ${index + 1}`}
                 value={instruction}
@@ -100,31 +108,39 @@ export default class CreateRecipePage extends Component {
               />
             </div>
           ))}
-          <button type="button" onClick={this.handleAddInstruction}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={this.handleAddInstruction}
+          >
             Add Instruction
           </button>
         </div>
 
-        <label>
-          Author Name:
+        <div className="mb-3">
+          <label className="form-label">Author Name:</label>
           <input
             type="text"
+            className="form-control"
             name="authorName"
             value={authorName}
             onChange={this.handleChange}
           />
-        </label>
+        </div>
 
-        <label>
-          Upload Image:
+        <div className="mb-3">
+          <label className="form-label">Upload Image:</label>
           <input
             type="file"
             accept="image/*"
+            className="form-control"
             onChange={this.handleImageChange}
           />
-        </label>
+        </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
       </form>
     );
   }
