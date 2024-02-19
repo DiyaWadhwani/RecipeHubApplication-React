@@ -2,7 +2,7 @@
 .body {
     background-color: #A4DAEB;
     width: auto;
-    height: 100vh;
+    height: 150vh;
 }
 
 .sep-line {
@@ -11,16 +11,11 @@
 }
 
 .flex-box-user {
-    /* background-color: red; */
     justify-content: center;
     align-items: center;
     margin: 40px;
     margin-left: 60px;
 }
-/* 
-.user-display {
-    padding-bottom: 10px;
-} */
 
 .user-image {
   width: 200px;

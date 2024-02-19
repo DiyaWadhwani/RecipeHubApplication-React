@@ -1,6 +1,8 @@
 import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import firebaseConfigInstance from "./FirebaseConfig";
 import { ref, getDownloadURL } from "firebase/storage";
+import RecipeDetails from "./RecipeDetails";
+import Ingredient from "./Ingredient";
 
 export default class MyFirebaseDB {
   constructor() {
@@ -30,15 +32,62 @@ export default class MyFirebaseDB {
     }
   }
 
-  async fetchRecipeDetails(recipeName, setStateCallback) {
+  // async fetchRecipeDetails(recipeName, setStateCallback) {
+  //   try {
+  //     this.myDatabase = new MyFirebaseDB();
+  //     const recipeDocRef = doc(this.myDatabase.db, "recipes", recipeName);
+  //     console.log("recipeDocref created", recipeDocRef);
+  //     const recipeDocSnap = await getDoc(recipeDocRef);
+
+  //     if (recipeDocSnap.exists()) {
+  //       const recipeDetails = recipeDocSnap.data();
+  //       // Fetch ingredients
+  //       const ingredientsRef = collection(
+  //         this.myDatabase.db,
+  //         "recipes",
+  //         recipeName,
+  //         "ingredients"
+  //       );
+  //       const ingredientsSnap = await getDocs(ingredientsRef);
+
+  //       // Map ingredients data
+  //       const ingredientDict = {};
+  //       ingredientsSnap.docs.forEach((doc) => {
+  //         const data = doc.data();
+  //         const ingredientName = doc.id;
+  //         const quantity = data.qty;
+  //         ingredientDict[ingredientName] = quantity;
+  //       });
+
+  //       setStateCallback({
+  //         recipeDetails: {
+  //           recipeIngredients: ingredientDict,
+  //           recipeInstructions: recipeDetails.instructions,
+  //           recipeAuthor: recipeDetails.author,
+  //           recipeName: recipeName,
+  //         },
+  //       });
+
+  //       console.log("Recipe Details fetched:", this.state.recipeDetails);
+  //       return this.state.recipeDetails;
+  //     } else {
+  //       console.log("Recipe not found -- js file");
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching recipe details:", error);
+  //     return null;
+  //   }
+  // }
+
+  async fetchRecipeDetails(recipeName) {
     try {
       this.myDatabase = new MyFirebaseDB();
       const recipeDocRef = doc(this.myDatabase.db, "recipes", recipeName);
-      console.log("recipeDocref created", recipeDocRef);
       const recipeDocSnap = await getDoc(recipeDocRef);
 
       if (recipeDocSnap.exists()) {
-        const recipeDetails = recipeDocSnap.data();
+        const recipeDocumentData = recipeDocSnap.data();
         // Fetch ingredients
         const ingredientsRef = collection(
           this.myDatabase.db,
@@ -49,25 +98,23 @@ export default class MyFirebaseDB {
         const ingredientsSnap = await getDocs(ingredientsRef);
 
         // Map ingredients data
-        const ingredientDict = {};
+        const ingredientList = [];
+
         ingredientsSnap.docs.forEach((doc) => {
           const data = doc.data();
-          const ingredientName = doc.id;
-          const quantity = data.qty;
-          ingredientDict[ingredientName] = quantity;
+          const newIngredient = new Ingredient(doc.id, data.qty);
+          ingredientList.push(newIngredient);
         });
 
-        setStateCallback({
-          recipeDetails: {
-            recipeIngredients: ingredientDict,
-            recipeInstructions: recipeDetails.instructions,
-            recipeAuthor: recipeDetails.author,
-            recipeName: recipeName,
-          },
+        const fetchedRecipeDetails = new RecipeDetails({
+          recipeName: recipeName,
+          recipeAuthor: recipeDocumentData.author,
+          recipeInstructions: recipeDocumentData.instructions,
+          recipeIngredients: ingredientList,
         });
 
-        console.log("Recipe Details fetched:", this.state.recipeDetails);
-        return this.state.recipeDetails;
+        // Return the fetched recipe details directly
+        return fetchedRecipeDetails;
       } else {
         console.log("Recipe not found -- js file");
         return null;

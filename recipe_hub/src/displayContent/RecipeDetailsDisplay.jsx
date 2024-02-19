@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import RecipeImageDisplay from "../displayContent/RecipeImageDisplay";
 import PropTypes from "prop-types";
+import Ingredient from "../models/Ingredient";
 
 export default class RecipeDetailsDisplay extends Component {
   render() {
@@ -15,13 +16,11 @@ export default class RecipeDetailsDisplay extends Component {
                 <div className="ingredients-section">
                   <h3>Ingredients:</h3>
                   <ul>
-                    {Object.entries(recipeDetails.recipeIngredients).map(
-                      ([ingredient, qty]) => (
-                        <li key={ingredient}>
-                          {ingredient}: {qty}
-                        </li>
-                      )
-                    )}
+                    {recipeDetails.recipeIngredients.map((ingredient) => (
+                      <li key={ingredient.ingredientName}>
+                        {ingredient.ingredientName}: {ingredient.quantity}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -49,8 +48,6 @@ RecipeDetailsDisplay.propTypes = {
     recipeName: PropTypes.string,
     recipeAuthor: PropTypes.string,
     recipeInstructions: PropTypes.arrayOf(PropTypes.string),
-    recipeIngredients: PropTypes.objectOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    ),
+    recipeIngredients: PropTypes.arrayOf(PropTypes.instanceOf(Ingredient)),
   }),
 };

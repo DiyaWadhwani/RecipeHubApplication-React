@@ -22,11 +22,11 @@ export default class RecipeDetails {
   async fetchRecipeDetails(recipeName, setStateCallback) {
     try {
       const myDatabase = new MyFirebaseDB();
-      const recipeDetails = await myDatabase.fetchRecipeDetails(
+      const fetchedRecipeDetails = await myDatabase.fetchRecipeDetails(
         recipeName,
         setStateCallback
       );
-      return recipeDetails;
+      return fetchedRecipeDetails;
     } catch (error) {
       console.error("Error fetching recipes in RecipeManager:", error);
       return [];
