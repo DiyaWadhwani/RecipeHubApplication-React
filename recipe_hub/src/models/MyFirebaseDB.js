@@ -97,9 +97,9 @@ export default class MyFirebaseDB {
           recipeInstructions: recipeDocumentData.instructions,
           recipeIngredients: ingredientList,
         });
+        return fetchedRecipeDetails;
 
         // Return the fetched recipe details directly
-        return fetchedRecipeDetails;
       } else {
         console.log("Recipe not found -- js file");
         return null;
@@ -107,6 +107,65 @@ export default class MyFirebaseDB {
     } catch (error) {
       console.error("Error fetching recipe details:", error);
       return null;
+    }
+  }
+
+  async fetchForkedRecipe(recipeName) {
+    try {
+      const userCollectionRef = collection(this.db, "users");
+      const userCollectionSnap = await getDocs(userCollectionRef);
+
+      if (!userCollectionSnap.empty) {
+        const firstUserDoc = userCollectionSnap.docs[0];
+        const userDocRef = doc(this.db, "users", firstUserDoc.id);
+
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          console.log("userdocsnap exists", userDocSnap);
+          const forkedRecipesCollectionRef = collection(
+            userDocRef,
+            "forkedRecipes"
+          );
+          const forkedRecipeDocRef = doc(
+            forkedRecipesCollectionRef,
+            recipeName
+          );
+          const forkedRecipeDocSnap = await getDoc(forkedRecipeDocRef);
+
+          if (forkedRecipeDocSnap.exists()) {
+            // Fetch ingredients for the forked recipe
+            const ingredientsRef = collection(
+              forkedRecipesCollectionRef,
+              recipeName,
+              "ingredients"
+            );
+            const ingredientsSnap = await getDocs(ingredientsRef);
+
+            // Map ingredients data
+            const ingredientList = [];
+
+            ingredientsSnap.docs.forEach((doc) => {
+              const data = doc.data();
+              const newIngredient = new Ingredient(doc.id, data.qty);
+              ingredientList.push(newIngredient);
+            });
+
+            const fetchedRecipeDetails = new RecipeDetails({
+              recipeName: recipeName,
+              recipeAuthor: forkedRecipeDocSnap.data().author,
+              recipeInstructions: forkedRecipeDocSnap.data().instructions,
+              recipeIngredients: ingredientList,
+            });
+
+            return fetchedRecipeDetails;
+          } else {
+            console.log("userdocSnap does not exist");
+          }
+        }
+      }
+    } catch (error) {
+      console.log("Error in fetchForkedRecipe: ", error);
     }
   }
 
@@ -280,4 +339,66 @@ export default class MyFirebaseDB {
       console.error("Error updating createdRecipes array:", error);
     }
   }
+
+  async fetchUserForkedRecipeNames() {
+    try {
+      if (!this.db) {
+        console.error("Database not initialized!");
+        return [];
+      }
+
+      const usersCollectionRef = collection(this.db, "users");
+      const usersCollectionSnapshot = await getDocs(usersCollectionRef);
+
+      if (!usersCollectionSnapshot.empty) {
+        const firstUserDoc = usersCollectionSnapshot.docs[0];
+        const forkedRecipesCollectionRef = collection(
+          usersCollectionRef,
+          firstUserDoc.id,
+          "forkedRecipes"
+        );
+
+        const forkedRecipesSnapshot = await getDocs(forkedRecipesCollectionRef);
+
+        if (!forkedRecipesSnapshot.empty) {
+          const forkedRecipeNames = forkedRecipesSnapshot.docs.map(
+            (doc) => doc.id
+          );
+          console.log("Forked Recipe Names:", forkedRecipeNames);
+          return forkedRecipeNames;
+        } else {
+          console.log("Forked recipes collection is empty.");
+          return [];
+        }
+      } else {
+        console.log("Users collection is empty.");
+        return [];
+      }
+    } catch (error) {
+      console.error("Error fetching forked recipes:", error);
+      return [];
+    }
+  }
+
+  // async updateForkInRecipe(recipeName) {
+  //   try {
+  //     const recipeDocRef = doc(this.db, "recipes", recipeName);
+  //     const recipeDocSnap = await getDoc(recipeDocRef);
+
+  //     if (recipeDocSnap.exists()) {
+  //       const recipeDocumentData = recipeDocSnap.data();
+
+  //       const updatedData = {
+  //         ...recipeDocumentData,
+  //         isForked: true,
+  //       };
+
+  //       await updateDoc(recipeDocRef, updatedData);
+  //     } else {
+  //       console.log("Recipe document does not exist.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error in updateForkInRecipe: ", error);
+  //   }
+  // }
 }

@@ -11,6 +11,7 @@ export default class RecipeListPage extends Component {
     super(props);
     this.state = {
       recipes: [],
+      isForked: false,
     };
     this.recipeDetails = new RecipeDetails();
   }
@@ -18,7 +19,7 @@ export default class RecipeListPage extends Component {
   async componentDidMount() {
     console.log("Component mounted");
     await this.fetchRecipes();
-    console.log("Recipes fetched:", this.state.recipes);
+    // console.log("Recipes fetched:", this.state.recipes);
   }
 
   async fetchRecipes() {
@@ -30,20 +31,19 @@ export default class RecipeListPage extends Component {
         console.log("Maintaining my recipes");
         const myRecipes = await this.recipeDetails.fetchMyRecipeNames();
         console.log("Recipes from fetchMyRecipeNames:", myRecipes);
-        this.setState({ recipes: myRecipes }, () => {
-          console.log("Updated state:", this.state.recipes);
-        });
+        this.setState({ recipes: myRecipes, isForked: false });
       } else if (pathname === "/myForkedList") {
         // Fetching my forked recipes
         console.log("Maintaining forked recipes");
-        const forkedRecipes = await this.recipeDetails.fetchForkedRecipeNames();
+        const forkedRecipes =
+          await this.recipeDetails.fetchUserForkedRecipeNames();
         console.log("Recipes from fetchForkedRecipeNames:", forkedRecipes);
-        this.setState({ recipes: forkedRecipes });
+        this.setState({ recipes: forkedRecipes, isForked: true });
       } else {
         // Fetching the entire list of recipes
         const allRecipes = await this.recipeDetails.fetchRecipeNames();
         console.log("Recipes from fetchRecipes:", allRecipes);
-        this.setState({ recipes: allRecipes });
+        this.setState({ recipes: allRecipes, isForked: false });
       }
     } catch (error) {
       console.error("Error fetching recipes in RecipeList:", error);
@@ -55,7 +55,7 @@ export default class RecipeListPage extends Component {
   }
 
   render() {
-    const { recipes } = this.state;
+    const { recipes, isForked } = this.state;
     console.log("Recipes in render:", recipes);
 
     return (
@@ -88,11 +88,15 @@ export default class RecipeListPage extends Component {
           </form>
 
           <div className="recipe-list">
-            {recipes.length > 0 ? (
+            {recipes && recipes.length > 0 ? (
               <ul className="list-unstyled">
                 {recipes.map((recipe, index) => (
                   <li key={index}>
-                    <Link to={`/recipe?recipe_name=${recipe}`}>{recipe}</Link>
+                    <Link
+                      to={`/recipe?recipe_name=${recipe}&isForked=${isForked}`}
+                    >
+                      {recipe}
+                    </Link>
                   </li>
                 ))}
               </ul>

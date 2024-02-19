@@ -29,15 +29,17 @@ export default class RecipeDetailsPage extends Component {
   componentDidMount() {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const recipeName = urlSearchParams.get("recipe_name");
+    const isForked = urlSearchParams.get("isForked");
+    console.log("isForked ?", isForked);
     if (recipeName) {
-      this.fetchRecipeDetailsFromBackend(recipeName);
+      this.fetchRecipeDetailsFromBackend(recipeName, isForked);
     }
   }
 
-  async fetchRecipeDetailsFromBackend(recipeName) {
+  async fetchRecipeDetailsFromBackend(recipeName, isForked) {
     try {
-      const fetchedRecipeDetails =
-        await this.recipeDetails.fetchRecipeDetails(recipeName);
+      const fetchedRecipeDetails = 
+        await this.recipeDetails.fetchRecipeDetails(recipeName, isForked);
       if (fetchedRecipeDetails) {
         this.setState({ recipeDetails: fetchedRecipeDetails });
       } else {

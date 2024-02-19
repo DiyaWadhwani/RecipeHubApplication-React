@@ -18,19 +18,30 @@ export default class RecipeDetails {
     this.myDatabase = new MyFirebaseDB();
   }
 
-  async fetchRecipeDetails(recipeName, setStateCallback) {
+  async fetchRecipeDetails(recipeName, isForked) {
     try {
-      // const myDatabase = new MyFirebaseDB();
-      const fetchedRecipeDetails = await this.myDatabase.fetchRecipeDetails(
-        recipeName,
-        setStateCallback
-      );
-      return fetchedRecipeDetails;
+      // Log the value just before the conditional check
+      console.log("Type of isForked:", typeof isForked);
+
+      console.log("checking isForked to fetch recipe", isForked);
+
+      if (isForked === "true") {
+        console.log("fetching forkedRecipe from firebase");
+        const fetchedRecipeDetails =
+          await this.myDatabase.fetchForkedRecipe(recipeName);
+        return fetchedRecipeDetails;
+      } else {
+        console.log("fetching og recipe from firebase");
+        const fetchedRecipeDetails =
+          await this.myDatabase.fetchRecipeDetails(recipeName);
+        return fetchedRecipeDetails;
+      }
     } catch (error) {
       console.error("Error fetching recipes in RecipeDetails:", error);
       return [];
     }
   }
+
   async fetchRecipeNames() {
     try {
       const myDatabase = new MyFirebaseDB();
@@ -53,14 +64,12 @@ export default class RecipeDetails {
     }
   }
 
-  async fetchForkedRecipeNames() {
+  async fetchUserForkedRecipeNames() {
     try {
-      const forkedRecipes =
-        this.myDatabase.fetchUserSpecificRecipeNames("forkedRecipes");
-      return forkedRecipes;
+      const myRecipes = this.myDatabase.fetchUserForkedRecipeNames();
+      return myRecipes;
     } catch (error) {
-      console.error("Error fetching recipes in RecipeDetails:", error);
-      return [];
+      console.log("Error fetching recipes in RecipeDetails: ", error);
     }
   }
 }
