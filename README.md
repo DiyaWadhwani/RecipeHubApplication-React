@@ -48,8 +48,7 @@ Explore various dimensions such as cuisine preferences, cooking styles, ingredie
 
 ## Figma Mockups
 
-![Landing Page](https://recipehub-2822d.web.app/)
-*Insert other mockup images as needed.*
+![You can view the Figma Mockups by clicking here](https://www.figma.com/file/3SrsjFI1bN6nqfqBXoE9BB/RecipeHub?type=design&node-id=0-1&mode=design&t=ZJ2irtYacYVE7ic5-0)
 
 ## Contributing
 
