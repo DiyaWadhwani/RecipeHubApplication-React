@@ -35,10 +35,6 @@ RecipeHub is a collaborative web application that combines the collaborative spi
 3. **Run the Application:**
     Open the index.html file in your preferred web browser.
 
-## Hosted Web Application
-
-You can view the working application here if you wish to take a quick look
-https://recipehub-2822d.web.app
 
 ## User Stories
 
@@ -55,6 +51,17 @@ Explore various dimensions such as cuisine preferences, cooking styles, ingredie
 
 You can view the figma mockups present in the documentation pdf file or using the link below
 https://www.figma.com/file/3SrsjFI1bN6nqfqBXoE9BB/RecipeHub?type=design&node-id=0%3A1&mode=design&t=ZJ2irtYacYVE7ic5-1
+
+
+## Hosted Web Application
+
+You can view the working application here if you wish to take a quick look
+https://recipehub-2822d.web.app
+
+
+## Video Demo
+//youtubeLink
+
 
 ## Contributing
 
