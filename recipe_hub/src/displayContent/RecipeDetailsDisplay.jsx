@@ -27,7 +27,7 @@ export default class RecipeDetailsDisplay extends Component {
             </div>
 
             <div className="instructions-section">
-              <h3>Prep:</h3>
+              <h3>Preparation:</h3>
               <ol>
                 {recipeDetails.recipeInstructions.map((instruction, index) => (
                   <li key={index}>{instruction}</li>
