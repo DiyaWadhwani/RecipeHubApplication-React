@@ -379,26 +379,4 @@ export default class MyFirebaseDB {
       return [];
     }
   }
-
-  // async updateForkInRecipe(recipeName) {
-  //   try {
-  //     const recipeDocRef = doc(this.db, "recipes", recipeName);
-  //     const recipeDocSnap = await getDoc(recipeDocRef);
-
-  //     if (recipeDocSnap.exists()) {
-  //       const recipeDocumentData = recipeDocSnap.data();
-
-  //       const updatedData = {
-  //         ...recipeDocumentData,
-  //         isForked: true,
-  //       };
-
-  //       await updateDoc(recipeDocRef, updatedData);
-  //     } else {
-  //       console.log("Recipe document does not exist.");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error in updateForkInRecipe: ", error);
-  //   }
-  // }
 }

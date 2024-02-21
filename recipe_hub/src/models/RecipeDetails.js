@@ -7,7 +7,7 @@ export default class RecipeDetails {
     recipeName = "",
     recipeAuthor = "",
     recipeInstructions = {},
-    recipeIngredients = [new Ingredient("Default Ingredient", "2")],
+    recipeIngredients = [new Ingredient()],
     recipeImageURL = "",
   } = {}) {
     this.recipeName = recipeName;
@@ -15,7 +15,7 @@ export default class RecipeDetails {
     this.recipeIngredients = recipeIngredients;
     this.recipeInstructions = recipeInstructions;
     this.recipeImageURL = recipeImageURL;
-    this.myDatabase = new MyFirebaseDB();
+    this.myDatabase = new MyFirebaseDB(); // Assuming MyFirebaseDB is defined and imported correctly
   }
 
   async fetchRecipeDetails(recipeName, isForked) {

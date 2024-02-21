@@ -60,7 +60,7 @@ https://recipehub-2822d.web.app
 
 
 ## Video Demo
-//youtubeLink
+https://youtu.be/jyczAmZN51g
 
 
 ## Contributing
